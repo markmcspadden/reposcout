@@ -41,7 +41,7 @@ run Router.new([
       [
         200,
         { 'Content-Type' => 'text/html' },
-        ["fancy index page"]
+        [ERB.new(File.read(File.join(File.dirname(__FILE__), "views", "index.html.erb"))).result]
       ]
     end    
   },

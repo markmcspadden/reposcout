@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  </head>
+  <body>
+    <h1>Repo Health</h1>
+
+    <form action="#">
+      <input id="repo" type="text" placeholder="owner/repo-name"/>
+      <br/>
+      <input type="submit" />
+    </form>
+
+    <section id="results" style="display: none;">
+      <h3>Health</h3>
+      <div id="health_result"></div>
+    </section>
+  </body>
+
+  <script type="text/javascript">
+    $(function(){
+      $('form').submit(function(e) {
+        e.preventDefault();
+
+        // Do some validation
+        var repo = $('#repo').val();
+
+        // Do some spinner stuff
+
+        // Request health
+        $.ajax("/" + repo + "/health", {
+          dataType: "json",
+          success: function(data) {
+            console.log(data);
+            $('#health_result').html(data["health"]);
+            $('#results').show();
+          }
+        });
+      })
+    });
+  </script>
+</html>
