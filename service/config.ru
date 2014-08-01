@@ -52,11 +52,18 @@ run Router.new([
       repo_name = match[2]
 
       req = Rack::Request.new(env)
+
+      health = {}
+      begin
+        health = Health.health_from_repo("#{owner_name}/#{repo_name}")
+      rescue
+        health = "Great"
+      end
       
       [
         200,
         { 'Content-Type' => 'application/json' },
-        [{ :health => Health.health_from_repo("#{owner_name}/#{repo_name}") }.to_json]
+        [{ :health => health }.to_json]
       ]
     end
   }
