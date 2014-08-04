@@ -4,6 +4,8 @@ require 'json'
 # Only using Array#sum currently
 require 'active_support/all'
 
+require File.expand_path(File.join(File.dirname(__FILE__), 'google_b_q_query'))
+
 class Health
   $project_id = "jovial-opus-656"
 
@@ -13,19 +15,12 @@ class Health
       # query_string = "SELECT type, count(type) as events, repository_description, repository_url FROM [githubarchive:github.timeline] WHERE repository_owner='#{owner_name}' AND repository_name='#{repo_name}' AND PARSE_UTC_USEC(created_at) >= PARSE_UTC_USEC('#{start_date_string}') AND PARSE_UTC_USEC(created_at) <= PARSE_UTC_USEC('#{end_date_string}') GROUP BY type, repository_description, repository_url ORDER BY events DESC"
       query_string = "SELECT type, count(type) as events FROM [githubarchive:github.timeline] WHERE repository_owner='#{owner_name}' AND repository_name='#{repo_name}' AND PARSE_UTC_USEC(created_at) >= PARSE_UTC_USEC('#{start_date_string}') AND PARSE_UTC_USEC(created_at) <= PARSE_UTC_USEC('#{end_date_string}') GROUP BY type ORDER BY events DESC"
 
-      output = `bq --project_id #{$project_id} --format json query "#{query_string}"`
-
-      json_string = output.strip.split("\n").last
-
-      json = JSON.parse(json_string)
-
-      pp json
-
-      json
+      json = fetch_query(query_string)
     end
 
     def overall_score_from_json(json)
-      types = json.map{ |j| j["type"] }.uniq
+      # types = json.map{ |j| j["type"] }.uniq
+      types = json.map{ |j| j.first }.uniq
 
       watch_score = types.include?("WatchEvent") ? 1 : 0
       fork_score = types.include?("ForkEvent") ? 1 : 0
@@ -70,6 +65,22 @@ class Health
     def health_from_repo(repo)
       score = cumulative_score_for_repo(repo)
       health_from_cumulative_score(score)
+    end
+
+    def fetch_query(query_string)
+      GoogleBQQuery.new.query(query_string)
+    end
+
+    def old_fetch_query(query_string)
+      output = `bq --project_id #{$project_id} --format json query "#{query_string}"`
+
+      json_string = output.strip.split("\n").last
+
+      json = JSON.parse(json_string)
+
+      pp json
+
+      json
     end
 
     def test_all
