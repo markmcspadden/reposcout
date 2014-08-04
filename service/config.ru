@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'rack'
-# require 'bundler'
-# Bundler.require
+require 'bundler'
+Bundler.require
 
 require File.join(File.dirname(__FILE__), "lib", "health")
 
