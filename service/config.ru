@@ -34,18 +34,6 @@ end
 
 run Router.new([
   {
-    :pattern => "/index",
-    :controller => lambda do |env, match|
-      req = Rack::Request.new(env)
-      
-      [
-        200,
-        { 'Content-Type' => 'text/html' },
-        [ERB.new(File.read(File.join(File.dirname(__FILE__), "views", "index.html.erb"))).result]
-      ]
-    end    
-  },
-  {
     :pattern => /\/(.*)\/(.*)\/health/,
     :controller => lambda do |env, match|
       owner_name = match[1]
@@ -66,7 +54,20 @@ run Router.new([
         [{ :health => health }.to_json]
       ]
     end
-  }
+  },
+  # / needs to be last for pattern matching
+  {
+    :pattern => "/",
+    :controller => lambda do |env, match|
+      req = Rack::Request.new(env)
+      
+      [
+        200,
+        { 'Content-Type' => 'text/html' },
+        [ERB.new(File.read(File.join(File.dirname(__FILE__), "views", "index.html.erb"))).result]
+      ]
+    end    
+  },
   # {
   #   :pattern => %r{^/api/.*$},
   #   :controller => lambda do |env, match|
