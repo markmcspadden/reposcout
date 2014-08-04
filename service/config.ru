@@ -56,8 +56,8 @@ run Router.new([
       health = {}
       begin
         health = Health.health_from_repo("#{owner_name}/#{repo_name}")
-      rescue
-        health = "Great"
+      # rescue
+      #   health = "Great"
       end
       
       [
