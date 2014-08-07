@@ -35,25 +35,40 @@ class Health
     def json_to_collection(json)
       json.map{ |j| j.first }.uniq
     end
+    def json_to_collection_with_counts(json)
+      Hash[json]
+    end
 
     def watch_score_from_collection(collection)
       collection.include?("WatchEvent") ? 1 : 0
     end
-
     def fork_score_from_collection(collection)
       collection.include?("ForkEvent") ? 1 : 0
     end
-
     def issue_score_from_collection(collection)
       collection.include?("IssuesEvent") || collection.include?("IssueCommentEvent") ? 1 : 0
     end
-
     def pr_score_from_collection(collection)
       collection.include?("PullRequestEvent") || collection.include?("PullRequestReviewCommentEvent") ? 1 : 0
     end
-
     def push_score_from_collection(collection)
       collection.include?("PushEvent") ? 1 : 0
+    end
+
+    def watch_counts_from_collection(collection)
+      collection["WatchEvent"].to_i
+    end
+    def fork_counts_from_collection(collection)
+      collection["ForkEvent"].to_i
+    end
+    def issue_counts_from_collection(collection)
+      collection["IssuesEvent"].to_i + collection["IssueCommentEvent"].to_i
+    end
+    def pr_counts_from_collection(collection)
+      collection["PullRequestEvent"].to_i + collection["PullRequestReviewCommentEvent"].to_i
+    end
+    def push_counts_from_collection(collection)
+      collection["PushEvent"].to_i
     end
 
     def cumulative_score_for_repo(repo)
@@ -100,6 +115,11 @@ class Health
                   "issue_score" => issue_score_from_collection(json_to_collection(last_week_json(repo))),
                   "pr_score" => pr_score_from_collection(json_to_collection(last_week_json(repo))),
                   "push_score" => push_score_from_collection(json_to_collection(last_week_json(repo))),
+                  "watch_counts" => watch_counts_from_collection(json_to_collection_with_counts(last_week_json(repo))),
+                  "fork_counts" => fork_counts_from_collection(json_to_collection_with_counts(last_week_json(repo))),
+                  "issue_counts" => issue_counts_from_collection(json_to_collection_with_counts(last_week_json(repo))),
+                  "pr_counts" => pr_counts_from_collection(json_to_collection_with_counts(last_week_json(repo))),
+                  "push_counts" => push_counts_from_collection(json_to_collection_with_counts(last_week_json(repo)))
                 }
       last_30 = {
             "watch_score" => watch_score_from_collection(json_to_collection(last_month_json(repo))),
@@ -107,6 +127,11 @@ class Health
             "issue_score" => issue_score_from_collection(json_to_collection(last_month_json(repo))),
             "pr_score" => pr_score_from_collection(json_to_collection(last_month_json(repo))),
             "push_score" => push_score_from_collection(json_to_collection(last_month_json(repo))),
+            "watch_counts" => watch_counts_from_collection(json_to_collection_with_counts(last_month_json(repo))),
+            "fork_counts" => fork_counts_from_collection(json_to_collection_with_counts(last_month_json(repo))),
+            "issue_counts" => issue_counts_from_collection(json_to_collection_with_counts(last_month_json(repo))),
+            "pr_counts" => pr_counts_from_collection(json_to_collection_with_counts(last_month_json(repo))),
+            "push_counts" => push_counts_from_collection(json_to_collection_with_counts(last_month_json(repo)))
           }
       {
         "overall_health" => health_from_repo(repo),
