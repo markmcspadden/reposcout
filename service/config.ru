@@ -41,17 +41,17 @@ run Router.new([
 
       req = Rack::Request.new(env)
 
-      health = {}
+      health_json = {}
       begin
-        health = Health.health_from_repo("#{owner_name}/#{repo_name}")
+        health_json = Health.health_json_from_repo("#{owner_name}/#{repo_name}")
       # rescue
-      #   health = "Great"
+      #   puts "Uh oh..."
       end
       
       [
         200,
         { 'Content-Type' => 'application/json' },
-        [{ :health => health }.to_json]
+        [health_json.to_json]
       ]
     end
   },

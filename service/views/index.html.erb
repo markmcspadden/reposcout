@@ -188,9 +188,9 @@
         dataType: "json",
         success: function(data) {
           console.log(data);
-          $('#health_result').html(data["health"]);
+          $('#health_result').html(data["overall_health"]);
           $('#health_result').removeClass();
-          $('#health_result').addClass(data["health"]);
+          $('#health_result').addClass(data["overall_health"]);
           $('#search-repo-label').html(repo);
           $('#results').show();
 
