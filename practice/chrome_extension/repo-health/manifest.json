@@ -1,0 +1,22 @@
+{
+  "name": "Repo Health",
+  "version": "0.0.1",
+  "description": "Shows the repo health of a given repo",
+  "icons": { "128": "icon.png" },
+  "background": { "scripts": ["background.js"] },
+  "content_scripts": [
+    { "matches": ["http://github.com/*", "https://github.com/*"], "js": ["repo_health_content_script.js"] }
+  ],
+  "permissions": [
+    "tabs",
+    "https://maps.google.com/*",
+    "https://maps.googleapis.com/*"
+  ],
+  "page_action": {
+      "default_name": "Repo Health",
+      "default_icon": {"19":"marker.png"},
+      "default_popup": "popup.html"
+  },
+  "manifest_version": 2,
+  "content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src https://maps.googleapis.com; img-src https://maps.google.com"
+}
