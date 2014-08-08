@@ -83,6 +83,11 @@
       #health_result.great {
         color: green;
       }
+
+      #details a.current {
+        font-weight: bold;
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
@@ -145,8 +150,10 @@
           </div>
           <div id="details">
             <h3>Current Health Details</h3>
-            Last 7 Days | Last 30 Days (toggle)
-            <dl>
+            <a href="#" id="last_7_link" class="current">Last 7 Days</a>
+            &nbsp;|&nbsp;
+            <a href="#" id="last_30_link">Last 30 Days</a>
+            <dl id="last_7_stats">
               <dt>New Watchers</dt>
               <dd>7</dd>
               <dt>New Forks</dt>
@@ -157,6 +164,18 @@
               <dd>31</dd>
               <dt>New Pushes</dt>
               <dd>41</dd>
+            </dl>
+            <dl id="last_30_stats" style="display:none;">
+              <dt>New Watchers</dt>
+              <dd>2</dd>
+              <dt>New Forks</dt>
+              <dd>4</dd>
+              <dt>New Issues / Issue Comments</dt>
+              <dd>6</dd>
+              <dt>New Pull Requests / Pull Request Comments</dt>
+              <dd>8</dd>
+              <dt>New Pushes</dt>
+              <dd>10</dd>
             </dl>
           </div>
           <div id="predictions">
@@ -192,6 +211,21 @@
           $('#health_result').removeClass();
           $('#health_result').addClass(data["overall_health"]);
           $('#search-repo-label').html(repo);
+
+          // Probably need to handlebar this 
+          $('#last_7_stats dd:nth-of-type(1)').html(data["last_7"]["watch_counts"]);
+          $('#last_7_stats dd:nth-of-type(2)').html(data["last_7"]["fork_counts"]);
+          $('#last_7_stats dd:nth-of-type(3)').html(data["last_7"]["issue_counts"]);
+          $('#last_7_stats dd:nth-of-type(4)').html(data["last_7"]["pr_counts"]);
+          $('#last_7_stats dd:nth-of-type(5)').html(data["last_7"]["push_counts"]);
+
+          $('#last_30_stats dd:nth-of-type(1)').html(data["last_30"]["watch_counts"]);
+          $('#last_30_stats dd:nth-of-type(2)').html(data["last_30"]["fork_counts"]);
+          $('#last_30_stats dd:nth-of-type(3)').html(data["last_30"]["issue_counts"]);
+          $('#last_30_stats dd:nth-of-type(4)').html(data["last_30"]["pr_counts"]);
+          $('#last_30_stats dd:nth-of-type(5)').html(data["last_30"]["push_counts"]);
+
+
           $('#results').show();
 
           // Update url!
@@ -221,6 +255,24 @@
         e.preventDefault();
         $('#project-more').hide();
         $('#learn-more').show();
+      });
+
+      $('#last_7_link').click(function(e) {
+        e.preventDefault();
+
+        $('#last_30_link').removeClass('current');
+        $('#last_7_link').addClass('current');
+        $('#last_30_stats').hide();
+        $('#last_7_stats').show();
+      });
+
+      $('#last_30_link').click(function(e) {
+        e.preventDefault();
+
+        $('#last_7_link').removeClass('current');
+        $('#last_30_link').addClass('current');
+        $('#last_7_stats').hide();
+        $('#last_30_stats').show();
       });
     });
   </script>
