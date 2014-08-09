@@ -3,12 +3,10 @@ require 'rubygems'
 require 'bundler'
 Bundler.require
 
-
+require File.join(File.dirname(__FILE__), "lib", "health")
 
 desc "Cache the Repo"
 task :cache_repo, [:repo] do |t, args|
-  require File.join(File.dirname(__FILE__), "lib", "health")
-  
   repo = args[:repo]
 
   # TODO: Abort if no repo
@@ -16,4 +14,9 @@ task :cache_repo, [:repo] do |t, args|
   puts "Caching Repo: #{repo}"
 
   Health.cache_health_reading_from_repo(repo)
+end
+
+desc "Migrate HealthReading"
+task :migrate_health_reading do
+  HealthReading.run_migration_up
 end
