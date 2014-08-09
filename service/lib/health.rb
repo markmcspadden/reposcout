@@ -4,6 +4,7 @@ require 'json'
 # Only using Array#sum currently
 require 'active_support/all'
 
+require File.expand_path(File.join(File.dirname(__FILE__), 'health_reading'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'google_b_q_query'))
 
 class Health
@@ -106,9 +107,48 @@ class Health
       health_from_cumulative_score(score)
     end
 
-
-
     def health_json_from_repo(repo)
+      # TODO: Detect if there is one cached recently or go get another one
+      cached_health = HealthReading.dataset.where(:repo => repo).order(:id).last
+
+      # TODO: Probably need to background this
+      if(!cached_health)
+        cache_health_reading_from_repo(repo)
+        cached_health = HealthReading.dataset.where(:repo => repo).order(:id).last        
+      end
+
+      last_7 = {
+                  :watch_score => cached_health[:last_7_watch_score],
+                  :fork_score => cached_health[:last_7_fork_score],
+                  :issue_score => cached_health[:last_7_issue_score],
+                  :pr_score => cached_health[:last_7_pr_score],
+                  :push_score => cached_health[:last_7_push_score],
+                  :watch_counts => cached_health[:last_7_watch_counts],
+                  :fork_counts => cached_health[:last_7_fork_counts],
+                  :issue_counts => cached_health[:last_7_issue_counts],
+                  :pr_counts => cached_health[:last_7_pr_counts],
+                  :push_counts => cached_health[:last_7_push_counts]
+                }
+      last_30 = {
+            :watch_score => cached_health[:last_30_watch_score],
+            :fork_score => cached_health[:last_30_fork_score],
+            :issue_score => cached_health[:last_30_issue_score],
+            :pr_score => cached_health[:last_30_pr_score],
+            :push_score => cached_health[:last_30_push_score],
+            :watch_counts => cached_health[:last_30_watch_counts],
+            :fork_counts => cached_health[:last_30_fork_counts],
+            :issue_counts => cached_health[:last_30_issue_counts],
+            :pr_counts => cached_health[:last_30_pr_counts],
+            :push_counts => cached_health[:last_30_push_counts]
+          }
+      {
+        "overall_health" => cached_health[:overall_health],
+        "last_7" => last_7,
+        "last_30" => last_30
+      }
+    end
+
+    def old_health_json_from_repo(repo)      
       last_7 = {
                   "watch_score" => watch_score_from_collection(json_to_collection(last_week_json(repo))),
                   "fork_score" => fork_score_from_collection(json_to_collection(last_week_json(repo))),
@@ -138,6 +178,44 @@ class Health
         "last_7" => last_7,
         "last_30" => last_30
       }
+    end
+
+    def cache_health_reading_from_repo(repo)
+      last_7_json = last_week_json(repo)
+      last_7_collection = json_to_collection(last_7_json)
+      last_7_collection_with_counts = json_to_collection_with_counts(last_7_json)
+
+      last_30_json = last_month_json(repo)
+      last_30_collection = json_to_collection(last_30_json)
+      last_30_collection_with_counts = json_to_collection_with_counts(last_30_json)
+
+      attributes = {
+        "repo" => repo,
+        "overall_health" => health_from_repo(repo),
+        "overall_health_score" => cumulative_score_for_repo(repo),
+        "last_7_watch_score" => watch_score_from_collection(last_7_collection),
+        "last_7_fork_score" => fork_score_from_collection(last_7_collection),
+        "last_7_issue_score" => issue_score_from_collection(last_7_collection),
+        "last_7_pr_score" => pr_score_from_collection(last_7_collection),
+        "last_7_push_score" => push_score_from_collection(last_7_collection),
+        "last_7_watch_counts" => watch_counts_from_collection(last_7_collection_with_counts),
+        "last_7_fork_counts" => fork_counts_from_collection(last_7_collection_with_counts),
+        "last_7_issue_counts" => issue_counts_from_collection(last_7_collection_with_counts),
+        "last_7_pr_counts" => pr_counts_from_collection(last_7_collection_with_counts),
+        "last_7_push_counts" => push_counts_from_collection(last_7_collection_with_counts),
+        "last_30_watch_score" => watch_score_from_collection(last_30_collection),
+        "last_30_fork_score" => fork_score_from_collection(last_30_collection),
+        "last_30_issue_score" => issue_score_from_collection(last_30_collection),
+        "last_30_pr_score" => pr_score_from_collection(last_30_collection),
+        "last_30_push_score" => push_score_from_collection(last_30_collection),
+        "last_30_watch_counts" => watch_counts_from_collection(last_30_collection_with_counts),
+        "last_30_fork_counts" => fork_counts_from_collection(last_30_collection_with_counts),
+        "last_30_issue_counts" => issue_counts_from_collection(last_30_collection_with_counts),
+        "last_30_pr_counts" => pr_counts_from_collection(last_30_collection_with_counts),
+        "last_30_push_counts" => push_counts_from_collection(last_30_collection_with_counts),
+      }
+
+      HealthReading.dataset.insert(attributes)
     end
 
     def fetch_query(query_string)
