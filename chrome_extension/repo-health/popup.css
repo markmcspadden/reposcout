@@ -1,0 +1,18 @@
+/**
+ * Copyright (c) 2014 Mark McSpadden.
+ */
+
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+#map {
+  width: 512px;
+  height: 512px;
+}
+
+#main {
+  width: 512px;
+  height: 512px;
+}
