@@ -43,7 +43,7 @@ run Router.new([
 
       health_json = {}
       begin
-        health_json = Health.health_json_from_repo("#{owner_name}/#{repo_name}")
+        health_json = Health.new.health_json_from_repo("#{owner_name}/#{repo_name}")
       # rescue
       #   puts "Uh oh..."
       end

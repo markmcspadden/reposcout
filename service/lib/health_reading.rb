@@ -1,6 +1,10 @@
 require 'sequel'
 Sequel.extension :migration
+Sequel.extension :pg_hstore
+
 DB = Sequel.connect(ENV["DATABASE_URL"])
+
+
 
 class HealthReading
 
@@ -8,6 +12,9 @@ class HealthReading
     Sequel.migration do
       change do
         puts "HealthCache Migration Running..."
+        
+        run "CREATE EXTENSION hstore" 
+
         create_table(:health_readings) do
           primary_key :id
           String :repo
@@ -20,27 +27,7 @@ class HealthReading
           String :overall_health
           Float :overall_health_score
 
-          Float :last_7_watch_score
-          Float :last_7_fork_score
-          Float :last_7_issue_score
-          Float :last_7_pr_score
-          Float :last_7_push_score
-          Float :last_7_watch_counts
-          Float :last_7_fork_counts
-          Float :last_7_issue_counts
-          Float :last_7_pr_counts
-          Float :last_7_push_counts
-
-          Float :last_30_watch_score
-          Float :last_30_fork_score
-          Float :last_30_issue_score
-          Float :last_30_pr_score
-          Float :last_30_push_score
-          Float :last_30_watch_counts
-          Float :last_30_fork_counts
-          Float :last_30_issue_counts
-          Float :last_30_pr_counts
-          Float :last_30_push_counts 
+          HStore :health_attributes
         end
       end
     end
@@ -48,6 +35,10 @@ class HealthReading
 
   def self.run_migration_up
     migration.apply(DB, :up)
+  end
+
+  def self.drop_table
+    DB.drop_table(:health_readings)
   end
 
   def self.dataset

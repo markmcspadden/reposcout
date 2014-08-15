@@ -13,10 +13,15 @@ task :cache_repo, [:repo] do |t, args|
 
   puts "Caching Repo: #{repo}"
 
-  Health.cache_health_reading_from_repo(repo)
+  Health.new.cache_health_reading_from_repo(repo)
 end
 
 desc "Migrate HealthReading"
 task :migrate_health_reading do
   HealthReading.run_migration_up
+end
+
+desc "Drop HealthReading"
+task :drop_health_reading do
+  HealthReading.drop_table
 end

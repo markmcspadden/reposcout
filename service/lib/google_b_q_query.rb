@@ -1,3 +1,6 @@
+require 'ostruct'
+require 'json'
+
 require 'google/api_client'
 require 'google/api_client/client_secrets'
 require 'google/api_client/auth/installed_app'
@@ -16,7 +19,6 @@ class GoogleBQQuery
   end
 
   def signed_key
-    puts ENV["GOOGLE_API_PRIVATE_KEY"]
     @signed_key ||= OpenSSL::PKey::RSA.new ENV["GOOGLE_API_PRIVATE_KEY"], 'notasecret'
   end
 
@@ -40,12 +42,40 @@ class GoogleBQQuery
               :parameters => { "projectId" => "jovial-opus-656",
                               "format" => "json" })
 
-    puts resp
-    puts resp.data
+    puts "-------"
     puts resp.body
+    puts "-------"
 
-    json = JSON.parse(resp.body)
-    json = json["rows"].map{ |r| r["f"] }.map{ |field, value| [field["v"], value["v"]] }
+    data_normalized_to_events(resp.body)
+  end
+
+  # NOTE: Data requires that fields are kept in order
+  # See test/data/big_query_response.json for an example
+  def data_normalized_to_events(data)
+    json = JSON.parse(data)
+
+    fields = fields_from_json(json)
+
+    events = attrs_from_json(json).map{ |a| OpenStruct.new(a) }
+  end
+
+  def fields_from_json(json)
+    json["schema"]["fields"].map{ |f| f["name"] }
+  end
+
+
+  def attrs_from_json(json)
+    fields = fields_from_json(json)
+
+    json["rows"].map do |row| 
+      attrs_from_json_row_with_fields(row, fields)
+    end
+  end
+
+  def attrs_from_json_row_with_fields(json_row, fields)
+    attrs = {}
+    json_row["f"].each_with_index{ |v, idx| attrs[fields[idx]] = v["v"] }
+    attrs
   end
 
 end

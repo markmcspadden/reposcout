@@ -10,3 +10,8 @@ gem 'activesupport', '~> 4.0.0'
 
 gem 'pg'
 gem 'sequel'
+
+group :test do
+  gem 'minitest'
+  gem 'mocha'
+end
