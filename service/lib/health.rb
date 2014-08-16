@@ -25,6 +25,7 @@ class AbstractHealth
 
   # NOTE: Inclusive on the start date, exclusive on the end date
   def events_in_time_range(start_date_string, end_date_string)
+    return self.events if self.events.nil?
 
     # String or Times...pick one
     if(start_date_string.is_a?(String))
@@ -196,6 +197,25 @@ class Health < AbstractHealth
     end
   end
 
+  def score_phrase
+    score_phrase_from_words(score_in_words)
+  end
+
+  def score_phrase_from_words(words)
+    case words
+      when "Great"
+        "Top Repo. Can't go wrong here."
+      when "Good"
+        "All Clear. Use at will."
+      when "Meh"
+        "Low Activity. Use with caution."
+      when "Sad"
+        "Danger. Extremely low activity levels."
+      else
+        "Low Visibility. Status unclear."
+    end
+  end
+
   def health_json_from_repo(repo)
     # TODO: Detect if there is one cached recently or go get another one
     cached_health = HealthReading.dataset.where(:repo => repo).order(:id).last
@@ -234,6 +254,7 @@ class Health < AbstractHealth
         }
     {
       "overall_health" => cached_health[:overall_health],
+      "overall_health_phrase" => score_phrase_from_words(cached_health[:overall_health]),
       "last_7" => last_7,
       "last_30" => last_30
     }
@@ -249,7 +270,7 @@ class Health < AbstractHealth
     attributes = {
       "repo" => repo,
       "overall_health" => score_in_words,
-      "overall_health_score" => score,
+      "overall_health_score" => score
     }
 
     health_attributes = {

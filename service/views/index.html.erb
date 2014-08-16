@@ -84,8 +84,23 @@
       #results #health_result {
         font-size: 3.0em;
       }
+      #results #health_result p {
+        font-size: 0.5em;
+        margin: 0;
+      }
       #health_result.great {
+        /*color: gold;*/
+        /*color: LightSkyBlue;*/
+        color: purple;
+      }
+      #health_result.good {
         color: green;
+      }
+      #health_result.meh {
+        color: yellow;
+      }
+      #health_result.sad {
+        color: red;
       }
 
       #details {
@@ -164,9 +179,14 @@
         </form>
 
         <section id="results">
-          <hr/>
           <h3>The ScoutScore for <span id="search-repo-label">fake/fake</span></h3>
-          <div id="health_result" class="Great">Great</div>
+          <div id="health_result" class="Great">
+            <span id="score_in_words">Great</span>
+            <p>
+              <i class="fa fa-flag"></i>
+              <span id="score_phrase">All Clear. Use at will.</span>
+            </p>
+          </div>
           <div id="history">
             <h3>ScoutScore History</h3>
             chart thing
@@ -250,7 +270,21 @@
         dataType: "json",
         success: function(data) {
           console.log(data);
-          $('#health_result').html(data["overall_health"]);
+          $('#health_result #score_in_words').html(data["overall_health"]);
+          $('#health_result #score_phrase').html(data["overall_health_phrase"]);
+
+          // Flag or Trophy
+          var flag_or_trophy = "fa-flag";
+
+          if(data["overall_health"] == "Great") {
+            flag_or_trophy = "fa-trophy";
+          }
+          console.log("F or T", flag_or_trophy);
+
+          $('#health_result i').removeClass();
+          $('#health_result i').addClass("fa");
+          $('#health_result i').addClass(flag_or_trophy);
+
           $('#health_result').removeClass();
           $('#health_result').addClass(data["overall_health"]);
           $('#search-repo-label').html(repo);
