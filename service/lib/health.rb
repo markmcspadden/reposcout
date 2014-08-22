@@ -1,6 +1,7 @@
 require 'pp'
 require 'json'
 
+# TODO: Only require the active_support being used
 # Using: 
 #   Array#sum
 #   Time#beginning_of_day
@@ -24,10 +25,10 @@ class AbstractHealth
   end
 
   # NOTE: Inclusive on the start date, exclusive on the end date
+  # NOTE: Params can be a String or Time. That's not confusing at all.
   def events_in_time_range(start_date_string, end_date_string)
     return self.events if self.events.nil?
 
-    # String or Times...pick one
     if(start_date_string.is_a?(String))
       # I was told there would be no timezones :/
       start_time =  DateTime.parse(start_date_string).to_time.utc
