@@ -26,6 +26,7 @@ class Router
     end
     default
   end
+
 end
 
 # use Rack::Auth::Basic, "Protected Area" do |username, password|
@@ -33,6 +34,26 @@ end
 # end
 
 run Router.new([
+  {
+    :pattern => /\/search\/(.*)\/(.*)/,
+    :controller => lambda do |env, match|
+      owner_name = match[1]
+      repo_name = match[2]
+
+      req = Rack::Request.new(env)
+      
+      @owner_name = owner_name
+      @repo_name = repo_name
+
+      @repo = "#{@owner_name}/#{@repo_name}"
+
+      [
+        200,
+        { 'Content-Type' => 'text/html' },
+        [ERB.new(File.read(File.join(File.dirname(__FILE__), "views", "index.html.erb"))).result(binding)]
+      ]
+    end
+  },
   {
     :pattern => /\/(.*)\/(.*)\/health/,
     :controller => lambda do |env, match|

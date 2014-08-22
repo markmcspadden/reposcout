@@ -197,6 +197,10 @@ class Health < AbstractHealth
     end
   end
 
+  def score_base_100_from_score(score)
+    (score*100).round
+  end
+
   def score_phrase
     score_phrase_from_words(score_in_words)
   end
@@ -254,6 +258,7 @@ class Health < AbstractHealth
         }
     {
       "overall_health" => cached_health[:overall_health],
+      "overall_health_score_100" => score_base_100_from_score(cached_health[:overall_health_score]),
       "overall_health_phrase" => score_phrase_from_words(cached_health[:overall_health]),
       "last_7" => last_7,
       "last_30" => last_30
