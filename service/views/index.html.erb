@@ -106,6 +106,9 @@
       #details {
         overflow: auto;
       }
+      #details a {
+        color: #A9A9A9;
+      }
       #details a.current {
         font-weight: bold;
         text-decoration: none;
@@ -186,11 +189,7 @@
               <i class="fa fa-flag"></i>
               <span id="score_phrase">All Clear. Use at will.</span>
             </p>
-          </div>
-          <div id="history">
-            <h3>ScoutScore History</h3>
-            chart thing
-          </div>
+          </div>          
           <div id="details">
             <h3>Current ScoutScore Details</h3>
             <a href="#" id="last_7_link" class="current">Last 7 Days</a>
@@ -241,6 +240,10 @@
               </li>
             </dl>
           </div>
+          <div id="history">
+            <h3>ScoutScore History</h3>
+            chart thing
+          </div>
           <div id="predictions">
             <h3>Predictions</h3>
             <dl>
@@ -260,8 +263,10 @@
 
   <script type="text/javascript">
     function fetchHealth() {
-      // Do some validation
+      // TODO: Do some validation
       var repo = $('#repo').val();
+
+      $('#repo').blur();
 
       // Do some spinner stuff
 
@@ -275,12 +280,9 @@
 
           // Flag or Trophy
           var flag_or_trophy = "fa-flag";
-
           if(data["overall_health"] == "Great") {
             flag_or_trophy = "fa-trophy";
           }
-          console.log("F or T", flag_or_trophy);
-
           $('#health_result i').removeClass();
           $('#health_result i').addClass("fa");
           $('#health_result i').addClass(flag_or_trophy);
