@@ -56,12 +56,14 @@ function updateIcon(tabId, repo) {
   else if(selectedRepoDetails["overall_health"] === "Good") {
     iconPath = "images/Good.png"
   }
+  else if(selectedRepoDetails["overall_health"] === "Meh") {
+    iconPath = "images/Meh.png";
+  }
   else if(selectedRepoDetails["overall_health"] === "Sad") {
     iconPath = "images/Sad.png";
   }
   else {
-    //iconPath = "images/Default.png"
-    iconPath = "marker-upsidedown.png"
+    iconPath = "images/Unknown.png"
   }
 
   chrome.pageAction.setIcon({"tabId":tabId,"path":iconPath}, function() {
