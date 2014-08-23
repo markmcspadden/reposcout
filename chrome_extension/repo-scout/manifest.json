@@ -1,0 +1,21 @@
+{
+  "name": "RepoScout",
+  "version": "0.0.1",
+  "description": "Shows the ScoutScore of a given repo",
+  "icons": { "128": "icon.png" },
+  "background": { "scripts": ["background.js"] },
+  "content_scripts": [
+    { "matches": ["http://github.com/*", "https://github.com/*"], "js": ["repo_scout_content_script.js"] }
+  ],
+  "permissions": [
+    "tabs",
+    "http://repo-health.herokuapp.com/*"
+  ],
+  "page_action": {
+      "default_name": "RepoScout",
+      "default_icon": {"19":"images/Unknown.png"},
+      "default_popup": "popup.html"
+  },
+  "manifest_version": 2,
+  "content_security_policy": "default-src 'none'; style-src 'self' http://maxcdn.bootstrapcdn.com; font-src http://maxcdn.bootstrapcdn.com; script-src 'self'; connect-src http://repo-health.herokuapp.com"
+}

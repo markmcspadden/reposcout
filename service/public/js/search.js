@@ -5,7 +5,7 @@ function renderScore(repo, data) {
 
   // Flag or Trophy
   var flag_or_trophy = "fa-flag";
-  if(data["overall_health"] == "Great") {
+  if(data["overall_health"] === "Great") {
     flag_or_trophy = "fa-trophy";
   }
   $('#health_result i').removeClass();
