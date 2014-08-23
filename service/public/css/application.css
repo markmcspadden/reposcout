@@ -132,3 +132,10 @@ a:hover {
   margin: 0;
   padding: 0;
 }
+
+#spinner {
+  font-size: 5.0em;
+  width: 200px;
+  margin: 0 0 0 300;
+  color: #a9a9a9;
+}

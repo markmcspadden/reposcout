@@ -30,6 +30,7 @@ function renderScore(repo, data) {
   $('#last_30_stats li:nth-of-type(5) p:first').html(data["last_30"]["push_counts"]);
 
 
+  $('#spinner').hide();
   $('#results').show();
 }
 
@@ -44,6 +45,11 @@ function fetchHealth() {
   // Request health
   $.ajax("/" + repo + "/health", {
     dataType: "json",
+    beforeSend: function() {
+      $('#spinner').show();
+      $('#results').hide();
+      return true;
+    },
     success: function(data) {
       console.log(data);
       
