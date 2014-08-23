@@ -166,7 +166,7 @@ class IssueHealthTest < MiniTest::Unit::TestCase
   end
   def test_score_on_last_30
     @issue_health.events = @health.last_30_issue_events
-    assert_equal 7.0, @issue_health.score
+    assert @issue_health.score < 0.6 && @issue_health.score > 0.5
   end
   # TODO: Test all score steps
 
