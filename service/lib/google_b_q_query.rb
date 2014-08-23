@@ -42,10 +42,6 @@ class GoogleBQQuery
               :parameters => { "projectId" => "jovial-opus-656",
                               "format" => "json" })
 
-    puts "-------"
-    puts resp.body
-    puts "-------"
-
     data_normalized_to_events(resp.body)
   end
 

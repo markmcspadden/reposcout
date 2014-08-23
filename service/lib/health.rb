@@ -1,11 +1,12 @@
-require 'pp'
 require 'json'
 
 # TODO: Only require the active_support being used
 # Using: 
 #   Array#sum
+#   Time#advance
 #   Time#beginning_of_day
-#   String#classify and String#constantize
+#   String#classify
+#   String#constantize
 require 'active_support/all'
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'health_reading'))
@@ -269,9 +270,13 @@ class Health < AbstractHealth
   def cache_health_reading_from_repo(repo)
     owner_name, repo_name = repo.split("/")
 
-    self.events = events_from_big_query_for_repo_in_date_range(owner_name, repo_name, "2013-08-01 00:00:00", "2014-08-12 00:00:00")
+    end_time = Time.now.utc.beginning_of_day
+    start_time = end_time.advance(:days => -90)
 
-    puts self.events.count
+    start_time_string = start_time.strftime("%F %T")
+    end_time_string = end_time.strftime("%F %T")
+
+    self.events = events_from_big_query_for_repo_in_date_range(owner_name, repo_name, start_time_string, end_time_string)
 
     attributes = {
       "repo" => repo,
@@ -304,8 +309,6 @@ class Health < AbstractHealth
     }
 
     attributes[:health_attributes] = Sequel.hstore(health_attributes)
-
-    puts attributes
 
     HealthReading.dataset.insert(attributes)
   end
@@ -436,9 +439,6 @@ class PullRequestHealth < AbstractHealth
 
     p_score = (merged.size*4 + sad_closed.size - opened.size)/prs.size.to_f
     c_score = (comments.size*0.2)/opened.size.to_f
-
-    puts p_score
-    puts c_score
 
     # Dividing by 0.0 leads to infinity, which is not fun for addition
     raw_score = 0.0
