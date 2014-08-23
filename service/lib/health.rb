@@ -51,6 +51,7 @@ class Health < AbstractHealth
   attr_accessor :meta_events, :watch_events, :fork_events, :issue_events, :pull_request_events, :push_events
 
   SUB_HEALTHS = %w(meta watch fork issue pull_request push)
+  DAYS = [30, 60, 90]
 
   def initialize(attrs={})
     super
@@ -134,19 +135,13 @@ class Health < AbstractHealth
   # Even added double nesting.
   # Pray you don't see another block like this. Who knows what it might contain.
   #
-  # def last_7_watch_events
-  #   @last_7_watch_events ||= Health.new(:events => events_in_time_range(self.end_time.advance(:days => -1*days),self.end_time)).watch_events
-  # end
-  # def last_7_watch_health
-  #   @last_7_watch_health ||= WatchHealth.new(:events => last_7_watch_events)
-  # end
   # def last_30_watch_events
   #   @last_30_watch_events ||= events_in_time_range
   # end
   # def last_30_watch_health
   #   @last_30_watch_health ||= WatchHealth.new(:events => last_30_watch_events)
   # end
-  [7, 30].each do |days|
+  DAYS.each do |days|
     SUB_HEALTHS.each do |type|
       define_method("last_#{days}_#{type}_events".to_sym) do
         return self.instance_variable_get("@" + "last_#{days}_#{type}_events") if self.instance_variable_get("@" + "last_#{days}_#{type}_events")
@@ -161,11 +156,11 @@ class Health < AbstractHealth
 
   # Just once more.
   # I can quit anytime.
-  # def last_7_score
+  # def last_30_score
   #   scores = watch_health.score + ... + push_health.score
   #   scores.sum/scores.size.to_f
   # end
-  [7, 30].each do |days|
+  DAYS.each do |days|
     define_method("last_#{days}_score".to_sym) do
       scores = SUB_HEALTHS.map do |type|
                   self.send("last_#{days}_#{type}_health".to_sym).score # Scary
@@ -174,8 +169,8 @@ class Health < AbstractHealth
     end
   end
 
+  # TODO: Consider weighting the last 30, 60, and 90 days scores
   def score
-    #(last_7_score + last_30_score)/2.0
     last_30_score
   end
 
@@ -234,44 +229,29 @@ class Health < AbstractHealth
 
     cached_health_attributes = cached_health[:health_attributes]
 
-    last_7 = {
-                :watch_score => cached_health_attributes[:last_7_watch_score],
-                :fork_score => cached_health_attributes[:last_7_fork_score],
-                :issue_score => cached_health_attributes[:last_7_issue_score],
-                :pr_score => cached_health_attributes[:last_7_pr_score],
-                :push_score => cached_health_attributes[:last_7_push_score],
-                :watch_counts => cached_health_attributes[:last_7_watch_counts],
-                :fork_counts => cached_health_attributes[:last_7_fork_counts],
-                :issue_counts => cached_health_attributes[:last_7_issue_counts],
-                :pr_counts => cached_health_attributes[:last_7_pr_counts],
-                :push_counts => cached_health_attributes[:last_7_push_counts]
-              }
-    last_30 = {
-          :watch_score => cached_health_attributes[:last_30_watch_score],
-          :fork_score => cached_health_attributes[:last_30_fork_score],
-          :issue_score => cached_health_attributes[:last_30_issue_score],
-          :pr_score => cached_health_attributes[:last_30_pr_score],
-          :push_score => cached_health_attributes[:last_30_push_score],
-          :watch_counts => cached_health_attributes[:last_30_watch_counts],
-          :fork_counts => cached_health_attributes[:last_30_fork_counts],
-          :issue_counts => cached_health_attributes[:last_30_issue_counts],
-          :pr_counts => cached_health_attributes[:last_30_pr_counts],
-          :push_counts => cached_health_attributes[:last_30_push_counts]
-        }
-    {
+    json = {
       "overall_health" => cached_health[:overall_health],
       "overall_health_score_100" => score_base_100_from_score(cached_health[:overall_health_score]),
       "overall_health_phrase" => score_phrase_from_words(cached_health[:overall_health]),
-      "last_7" => last_7,
-      "last_30" => last_30
     }
+
+    DAYS.each do |day|
+      json["last_#{day}"] = {}
+
+      SUB_HEALTHS.each do |health|
+        json["last_#{day}"]["#{health}_score"] = cached_health_attributes["last_#{day}_#{health}_score".to_sym]
+        json["last_#{day}"]["#{health}_count"] = cached_health_attributes["last_#{day}_#{health}_counts".to_sym]
+      end
+    end
+
+    json
   end
 
   def cache_health_reading_from_repo(repo)
     owner_name, repo_name = repo.split("/")
 
     end_time = Time.now.utc.beginning_of_day
-    start_time = end_time.advance(:days => -90)
+    start_time = end_time.advance(:days => DAYS.max*(-1))
 
     start_time_string = start_time.strftime("%F %T")
     end_time_string = end_time.strftime("%F %T")
@@ -281,40 +261,25 @@ class Health < AbstractHealth
     attributes = {
       "repo" => repo,
       "overall_health" => score_in_words,
-      "overall_health_score" => score
+      "overall_health_score" => score,
+      "health_reading_at" => end_time
     }
 
     health_attributes = {
-      "meta_health" => meta_health.score,
-      "last_7_watch_score" => last_7_watch_health.score,
-      "last_7_fork_score" => last_7_fork_health.score,
-      "last_7_issue_score" => last_7_issue_health.score,
-      "last_7_pr_score" => last_7_pull_request_health.score,
-      "last_7_push_score" => last_7_push_health.score,
-      "last_7_watch_counts" => last_7_watch_health.count,
-      "last_7_fork_counts" => last_7_fork_health.count,
-      "last_7_issue_counts" => last_7_issue_health.count,
-      "last_7_pr_counts" => last_7_pull_request_health.count,
-      "last_7_push_counts" => last_7_push_health.count,
-      "last_30_watch_score" => last_30_watch_health.score,
-      "last_30_fork_score" => last_30_fork_health.score,
-      "last_30_issue_score" => last_30_issue_health.score,
-      "last_30_pr_score" => last_30_pull_request_health.score,
-      "last_30_push_score" => last_30_push_health.score,
-      "last_30_watch_counts" => last_30_watch_health.count,
-      "last_30_fork_counts" => last_30_fork_health.count,
-      "last_30_issue_counts" => last_30_issue_health.count,
-      "last_30_pr_counts" => last_30_pull_request_health.count,
-      "last_30_push_counts" => last_30_push_health.count,
+      "meta_health" => meta_health.score
     }
+
+    DAYS.each do |day|
+      SUB_HEALTHS.each do |health|
+        health_attributes["last_#{day}_#{health}_score"] = send("last_#{day}_#{health}_health".to_sym).score
+        health_attributes["last_#{day}_#{health}_counts"] =  send("last_#{day}_#{health}_health".to_sym).count
+      end
+    end
 
     attributes[:health_attributes] = Sequel.hstore(health_attributes)
 
     HealthReading.dataset.insert(attributes)
   end
-
-
-
 end
 
 

@@ -66,17 +66,6 @@ class HealthTest < MiniTest::Unit::TestCase
   end
   # TODO: Test other healths
 
-  
-  def test_last_7_watch_events
-    assert_equal "WatchEvent", @health.last_7_watch_events.sample.type
-    assert_equal 113, @health.last_7_watch_events.count
-  end
-  def test_last_7_watch_health
-    assert @health.last_7_watch_health.is_a?(WatchHealth)
-    assert_equal @health.last_7_watch_events, @health.last_7_watch_health.events
-  end
-  # TODO: Test other last_7s
-
   def test_last_30_watch_events
     assert_equal "WatchEvent", @health.last_30_watch_events.sample.type
     assert_equal 457, @health.last_30_watch_events.count
@@ -87,11 +76,12 @@ class HealthTest < MiniTest::Unit::TestCase
   end
   # TODO: Test other last_30s
 
+  # TODO: Test other last_XXs
 
-  def test_last_7_score
-    assert_equal 1.0, @health.last_7_score
+  def test_last_30_score
+    assert_equal 1.0, @health.last_30_score
   end
-  # TODO: Test last_30_score
+  # TODO: Test last_XX_score
 
   def test_score_in_words
     assert_equal "Great", @health.score_in_words
