@@ -36,8 +36,8 @@
             </section>
           </aside>
           <p>
-            RepoScout helps you quickly understand the <strong>activity level</strong> of any repository hosted on GitHub through a ScoutScore.
-            Use the form below or download the Chrome Extension to view repo state anytime you are looking at a repo in Chrome.
+            RepoScout helps you quickly understand the <strong>activity AND community</strong> of any repository hosted on GitHub through a ScoutScore.
+            Use the form below or download the Chrome Extension to view a ScoutScore anytime you are looking at a repo in Chrome.
           </p>
           <p>
             Everything you find here is Open Source, available on GitHub, and currently has a ScoutScore of: TK
@@ -49,8 +49,34 @@
             </a>  
           </p>
           <section id="project-more" style="display: none;">
+            <h3>
+              How do you decide that a repo is worth using?
+            </h3>
             <p>
-              Details about the project
+              For me, it usually involves some spelunking around GitHub to check out recent commits, issues and pull requests, and even things like watches and forks. And that's all before I even settle in to check out the README!
+            </p>
+            <p>
+              You may have noticed that the process I <i>had</i> been using involved clicking on several links AND then reading. Clicking!?!? Reading!?!? These are two of the things I try to avoid on the internet! <strong>I needed something easier.</strong>
+            </p>
+            <p>
+              And so I started writing a complicated piece of logic and assumptions in a form factor we call software. One calendar month, about 60 programming hours, and 37ish commits later I am ready to share <strong>RepoScout</strong>.
+            </p>
+            <p>
+              RepoScout is a ruthlessly judgemental piece of software created to assess the activity and community around any given repo. It doesn't care about the fact that you never violated the Law of Demeter or that your Test Coverage is at 97.8%. It cares abouts Events, the currency of activity and community in regards to your repo.
+            </p>
+            <p>
+              Utilizing the GitHub Events Timeline through Google Big Query, RepoScout looks at Watch, Fork, Issue, PullRequest, and Push Events over the last 90 days for your repo. It then uses a (somewhat overly complex) scoring system to arrive at a ScoutScore for your repo.
+            </p>
+            <p>
+              And while it's nice to have a website like this as a home base for getting a ScoutScore for any repo, this site sadly does involve the dreaded aforementioned clicking, reading, and as if things could get any worse, TYPING!
+            </p>
+            <p>
+              That's why I created the <strong>RepoScout Chrome Extension</strong>. This extension looks at any repo you do and quickly gets the ScoutScore for said repo, no clicking or typing required. (Clicking is required for detailed veiws. Also, it seems we are stuck with the "reading" requirement.)
+            </p>
+            <p>
+              Have questions about how this "scoring system" I mentioned? Think you can do better? Read the code! Submit a pull request! (This repo could use the boost in ScoutScore!)
+              <br/>
+              Have questions about other things? I'm <strong>markmcspadden</strong> on GitHub and Twitter.
             </p>
             <a href="#" id="learn-less">
               Learn less about the RepoScout project
@@ -157,6 +183,11 @@
         </section>
       </section>
     </section>
+    <footer id="main-footer">
+      <section class="main">
+        Made by <a href="http://github.com/markmcspadden">Mark McSpadden</a> with love, care, a dash of rage, and a lot caffeine.
+      </section>
+    </footer>
   </body>
 
   <script src="/js/search.js" type="text/javascript"></script>

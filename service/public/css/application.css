@@ -174,3 +174,11 @@ a:hover {
   margin: 0 0 0 300;
   color: #a9a9a9;
 }
+
+#main-footer {
+  border-top: 1px solid #e5e5e5;
+  margin-top: 150px;
+  padding: 5px 0;
+  font-size: 0.8em;
+  text-align: right;  
+}
