@@ -16,19 +16,27 @@ function renderScore(repo, data) {
   $('#health_result').addClass(data["overall_health"]);
   $('#search-repo-label').html(repo);
 
-  // TODO: Probably need to handlebar this 
-  $('#last_7_stats li:nth-of-type(1) p:first').html(data["last_7"]["watch_counts"]);
-  $('#last_7_stats li:nth-of-type(2) p:first').html(data["last_7"]["fork_counts"]);
-  $('#last_7_stats li:nth-of-type(3) p:first').html(data["last_7"]["issue_counts"]);
-  $('#last_7_stats li:nth-of-type(4) p:first').html(data["last_7"]["pr_counts"]);
-  $('#last_7_stats li:nth-of-type(5) p:first').html(data["last_7"]["push_counts"]);
+  // TODO: Probably need to handlebar this
+  console.log("last 30", data["last_30"]);
+  console.log("last 30", data["last_30"]["watch_counts"]);
 
-  $('#last_30_stats li:nth-of-type(1) p:first').html(data["last_30"]["watch_counts"]);
-  $('#last_30_stats li:nth-of-type(2) p:first').html(data["last_30"]["fork_counts"]);
-  $('#last_30_stats li:nth-of-type(3) p:first').html(data["last_30"]["issue_counts"]);
-  $('#last_30_stats li:nth-of-type(4) p:first').html(data["last_30"]["pr_counts"]);
-  $('#last_30_stats li:nth-of-type(5) p:first').html(data["last_30"]["push_counts"]);
+  $('#last_30_stats li:nth-of-type(1) p:first').html(data["last_30"]["watch_count"]);
+  $('#last_30_stats li:nth-of-type(2) p:first').html(data["last_30"]["fork_count"]);
+  $('#last_30_stats li:nth-of-type(3) p:first').html(data["last_30"]["issue_count"]);
+  $('#last_30_stats li:nth-of-type(4) p:first').html(data["last_30"]["pull_request_count"]);
+  $('#last_30_stats li:nth-of-type(5) p:first').html(data["last_30"]["push_count"]);
 
+  $('#last_60_stats li:nth-of-type(1) p:first').html(data["last_60"]["watch_count"]);
+  $('#last_60_stats li:nth-of-type(2) p:first').html(data["last_60"]["fork_count"]);
+  $('#last_60_stats li:nth-of-type(3) p:first').html(data["last_60"]["issue_count"]);
+  $('#last_60_stats li:nth-of-type(4) p:first').html(data["last_60"]["pull_request_count"]);
+  $('#last_60_stats li:nth-of-type(5) p:first').html(data["last_60"]["push_count"]);
+
+  $('#last_90_stats li:nth-of-type(1) p:first').html(data["last_90"]["watch_count"]);
+  $('#last_90_stats li:nth-of-type(2) p:first').html(data["last_90"]["fork_count"]);
+  $('#last_90_stats li:nth-of-type(3) p:first').html(data["last_90"]["issue_count"]);
+  $('#last_90_stats li:nth-of-type(4) p:first').html(data["last_90"]["pull_request_count"]);
+  $('#last_90_stats li:nth-of-type(5) p:first').html(data["last_90"]["push_count"]);
 
   $('#spinner').hide();
   $('#results').show();

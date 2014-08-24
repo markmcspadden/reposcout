@@ -112,6 +112,11 @@ class WatchHealthTest < MiniTest::Unit::TestCase
     assert_equal expected, @watch_health.score
   end
 
+  def test_score_with_no_events
+    @watch_health.events = []
+    assert_equal 0.0, @watch_health.score
+  end
+
   def test_count
     assert_equal @data.scan("WatchEvent").size, @watch_health.count
   end

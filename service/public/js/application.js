@@ -28,21 +28,34 @@ $(function(){
     $('#learn-more').show();
   });
 
-  $('#last_7_link').click(function(e) {
-    e.preventDefault();
-
-    $('#last_30_link').removeClass('current');
-    $('#last_7_link').addClass('current');
-    $('#last_30_stats').hide();
-    $('#last_7_stats').show();
-  });
-
   $('#last_30_link').click(function(e) {
     e.preventDefault();
 
-    $('#last_7_link').removeClass('current');
+    $('a.time_toggle').removeClass('current');
     $('#last_30_link').addClass('current');
-    $('#last_7_stats').hide();
+
+    $('#details ul').hide();
     $('#last_30_stats').show();
   });
+
+  $('#last_60_link').click(function(e) {
+    e.preventDefault();
+
+    $('a.time_toggle').removeClass('current');
+    $('#last_60_link').addClass('current');
+
+    $('#details ul').hide();
+    $('#last_60_stats').show();
+  });
+
+  $('#last_90_link').click(function(e) {
+    e.preventDefault();
+
+    $('a.time_toggle').removeClass('current');
+    $('#last_90_link').addClass('current');
+
+    $('#details ul').hide();
+    $('#last_90_stats').show();
+  });
+
 });

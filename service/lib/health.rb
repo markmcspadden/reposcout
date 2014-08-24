@@ -290,6 +290,8 @@ end
 class MetaHealth < AbstractHealth
 
   def score
+    return 0.0 if events.empty?
+
     old = events.first.repository_created_at.to_time < Time.now.advance(:months => -6)
     if(old)
       1.0
@@ -308,6 +310,8 @@ end
 class WatchHealth < AbstractHealth
 
   def score
+    return 0.0 if events.empty?
+
     started = events.select{ |e| e.payload_action == "started" }
 
     started.count/events.count.to_f
