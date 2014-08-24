@@ -33,3 +33,20 @@ Rake::TestTask.new do |t|
   t.test_files = FileList['test/*test.rb']
   t.verbose = true
 end
+
+desc "Seed Repos"
+task :seed_repos do
+  repos = File.readlines(File.join(File.dirname(__FILE__), "data", "seed_repos.txt"))
+
+  puts "Seeding #{repos.count} repos"
+
+  repos.reverse.each do |repo|
+    repo.strip!
+    begin
+      puts "Seed #{repo}"
+      Health.new.cache_health_reading_from_repo(repo)
+    rescue
+      puts "Error #{$!}"
+    end
+  end
+end

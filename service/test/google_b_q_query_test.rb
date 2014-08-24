@@ -48,4 +48,11 @@ class GoogleBQQueryTest < MiniTest::Unit::TestCase
     assert_equal expected, attrs
   end
 
+  def test_response_with_no_rows
+    @data = File.read(File.join(File.dirname(__FILE__), 'data', 'big_query_response_no_rows.json'))
+    @json = JSON.parse(@data)
+
+    assert_equal Hash.new, @bq.attrs_from_json(@json)
+  end
+
 end

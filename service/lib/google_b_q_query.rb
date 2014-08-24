@@ -36,6 +36,8 @@ class GoogleBQQuery
   def query(query)
     auth
 
+    puts query
+
     resp = client.execute(
               :api_method =>  bq_api.jobs.query,
               :body_object => { "query" => query },
@@ -62,6 +64,8 @@ class GoogleBQQuery
 
   def attrs_from_json(json)
     fields = fields_from_json(json)
+
+    return {} if !json["rows"]
 
     json["rows"].map do |row| 
       attrs_from_json_row_with_fields(row, fields)
