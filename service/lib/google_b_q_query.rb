@@ -36,8 +36,6 @@ class GoogleBQQuery
   def query(query)
     auth
 
-    puts query
-
     resp = client.execute(
               :api_method =>  bq_api.jobs.query,
               :body_object => { "query" => query },
