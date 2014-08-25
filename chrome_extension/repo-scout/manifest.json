@@ -1,7 +1,7 @@
 {
   "name": "RepoScout",
-  "version": "0.0.1",
-  "description": "Shows the ScoutScore of a given repo",
+  "version": "0.0.2",
+  "description": "Shows the ScoutScore of a given repo while navigating GitHub",
   "icons": { "128": "icon.png" },
   "background": { "scripts": ["background.js"] },
   "content_scripts": [
