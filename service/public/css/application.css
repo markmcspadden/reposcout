@@ -182,6 +182,10 @@ a:hover {
   padding: 0;
 }
 
+.followup {
+  font-size: 0.8em;
+}
+
 #spinner {
   font-size: 5.0em;
   width: 200px;

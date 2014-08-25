@@ -3,6 +3,8 @@ function renderScore(repo, data) {
   $('#health_result #score_in_words').html(data["overall_health_score_100"]);
   $('#health_result #score_phrase').html(data["overall_health_phrase"]);
 
+  $('#result-github-link').attr("href","http://github.com/" + repo + "/pulse")
+
   // Flag or Trophy
   var flag_or_trophy = "fa-flag";
   if(data["overall_health"] === "Great") {
