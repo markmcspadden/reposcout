@@ -36,7 +36,7 @@ Three sections of this repo:
 
 ## Data
 
-The first time I fetch the data for a repo, I hit Google BigQuery on the fly to grab the data I need to start computing a ScoutScore. Those methods can be found in the service component in (health.rb)[service/lib/health.rb#L66] and (google_b_q_query)[service/lib/google_b_q_query.rb].
+The first time I fetch the data for a repo, I hit Google BigQuery on the fly to grab the data I need to start computing a ScoutScore. Those methods can be found in the service component in [health.rb](service/lib/health.rb#L66) and [google_b_q_query](service/lib/google_b_q_query.rb).
 
 I currently cache the resulting computation in Postgres to make future calls nice and speedy. (There is currently no cache expiration.)
 
