@@ -65,6 +65,8 @@ class GoogleBQQuery
 
     return {} if !json["rows"]
 
+    raise "TOO MANY EVENTS!" if json["totalRows"] && json["totalRows"].to_i > 20000
+
     json["rows"].map do |row| 
       attrs_from_json_row_with_fields(row, fields)
     end

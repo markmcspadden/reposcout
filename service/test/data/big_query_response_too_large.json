@@ -1,0 +1,101 @@
+{
+ "kind": "bigquery#queryResponse",
+ "schema": {
+  "fields": [
+   {
+    "name": "repository_created_at",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "repository_forks",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "repository_open_issues",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "repository_watchers",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "type",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "created_at",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_pull_request_created_at",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_pull_request_state",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_pull_request_merged",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_pull_request_merged_at",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_pull_request_closed_at",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_pull_request_comments",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_pull_request_review_comments",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_action",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_issue",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_commit",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   },
+   {
+    "name": "payload_comment_created_at",
+    "type": "STRING",
+    "mode": "NULLABLE"
+   }
+  ]
+ },
+ "jobReference": {
+  "projectId": "jovial-opus-656",
+  "jobId": "job_J-q_FwLHRKcmgB7VUD3Ri27Q6nw"
+ },
+ "totalRows": "20222",
+ "rows": [],
+ "totalBytesProcessed": "24537261842",
+ "jobComplete": true,
+ "cacheHit": false
+}

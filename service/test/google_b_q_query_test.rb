@@ -55,4 +55,11 @@ class GoogleBQQueryTest < MiniTest::Unit::TestCase
     assert_equal Hash.new, @bq.attrs_from_json(@json)
   end
 
+  def test_response_with_more_than_20k_rows
+    @data = File.read(File.join(File.dirname(__FILE__), 'data', 'big_query_response_too_large.json'))
+    @json = JSON.parse(@data)
+
+    assert_raises(RuntimeError) { @bq.attrs_from_json(@json) }
+  end
+
 end
