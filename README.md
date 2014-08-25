@@ -1,6 +1,7 @@
 # RepoScout
 
 Live Site - http://reposcout.com
+
 Chrome Extension - (Download)[https://chrome.google.com/webstore/detail/reposcout/enfpnlpicffdonpjhoeopohnhcojlclg?hl=en-US]
 
 RepoScout helps you quickly understand the activity AND community of any repository hosted on GitHub through a ScoutScore. Use the form below or download the Chrome Extension to view a ScoutScore anytime you are looking at a repo in Chrome.
