@@ -44,10 +44,4 @@ Yes. There are actually tests. Run them using `rake test`.
 
 Like all "small rack apps" there is too much hand-rolled-ness here for my liking. Part of it was due to my first stab at the Sequel library. Part of it is just the nature of small rack apps.
 
-## Contributors
 
-@markmcspadden
-
-## License
-
-Same as (RepoScout)[../].
