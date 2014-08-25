@@ -59,7 +59,7 @@ You may find a lot of "health" references. RepoScout was RepoHealth before it wa
 
 ## Icons
 
-Icons are all from the great wonderful (Font Awesome)[http://fortawesome.github.io/Font-Awesome/]
+Icons are all from the great wonderful [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
 
 ## Contributors
 
