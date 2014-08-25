@@ -51,7 +51,7 @@ function fetchHealth() {
   // Do some spinner stuff
 
   // Request health
-  $.ajax("/" + repo + "/health", {
+  $.ajax("/" + repo + "/health?src=site", {
     dataType: "json",
     beforeSend: function() {
       $('#spinner').show();

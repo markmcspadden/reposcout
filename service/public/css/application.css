@@ -107,6 +107,20 @@ a:hover {
   padding: 0;
 }
 
+#recent li {
+  font-size: 0.9em;
+  margin: 8px 0px;
+}
+
+#recent li a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#recent li a:hover {
+  text-decoration: underline;
+}
+
 #results {
   width: 920px;
 }

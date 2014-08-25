@@ -25,13 +25,15 @@
             </section>
             
             <section id="recent">
-              <h3>Recently Searched</h3>
+              <h3>Recently Scouted</h3>
               <ul>
-                <li>list here</li>
-                <li>list here</li>
-                <li>list here</li>
-                <li>list here</li>
-                <li>list here</li>
+                <% @recents.each do |rs| %>
+                  <li>
+                    <a href="/search/<%= rs[:repo] %>">
+                      <%= rs[:repo] %>
+                    </a>
+                  </li>
+                <% end %>
               </ul>
             </section>
           </aside>

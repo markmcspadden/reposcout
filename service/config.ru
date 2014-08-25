@@ -47,6 +47,9 @@ run Router.new([
 
       @repo = "#{@owner_name}/#{@repo_name}"
 
+      # TODO: Make this sql
+      @recents = RecentSearch.dataset.reverse_order(:created_at).limit(50).to_a.uniq{ |s| s[:repo] }.take(10)
+
       [
         200,
         { 'Content-Type' => 'text/html' },
@@ -62,9 +65,15 @@ run Router.new([
 
       req = Rack::Request.new(env)
 
+      params = Rack::Utils.parse_nested_query(req.query_string)
+
       health_json = {}
       begin
         health_json = Health.new.health_json_from_repo("#{owner_name}/#{repo_name}")
+
+        if(params["src"] == "site")
+          RecentSearch.dataset.insert({:repo => "#{owner_name}/#{repo_name}", :created_at => Time.now})
+        end
       # rescue
       #   puts "Uh oh..."
       end
@@ -82,10 +91,14 @@ run Router.new([
     :controller => lambda do |env, match|
       req = Rack::Request.new(env)
       
+      # TODO: Make this sql
+      # TODO: Dry this up from /search/*/*
+      @recents = RecentSearch.dataset.reverse_order(:created_at).limit(50).to_a.uniq{ |s| s[:repo] }.take(10)
+
       [
         200,
         { 'Content-Type' => 'text/html' },
-        [ERB.new(File.read(File.join(File.dirname(__FILE__), "views", "index.html.erb"))).result]
+        [ERB.new(File.read(File.join(File.dirname(__FILE__), "views", "index.html.erb"))).result(binding)]
       ]
     end    
   },

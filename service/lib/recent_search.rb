@@ -1,31 +1,19 @@
 require 'sequel'
 Sequel.extension :migration
-Sequel.extension :pg_hstore
 
 DB ||= Sequel.connect(ENV["DATABASE_URL"])
 
-class HealthReading
+class RecentSearch
 
   def self.migration
     Sequel.migration do
       change do
-        puts "HealthCache Migration Running..."
-        
-        run "CREATE EXTENSION hstore" 
+        puts "RecentSearch Migration Running..."
 
-        create_table(:health_readings) do
+        create_table(:recent_searches) do
           primary_key :id
           String :repo
-          DateTime :repo_created_at
-          
-          DateTime :health_reading_at
-          Integer :health_reading_for_year
-          Integer :health_reading_for_week
-
-          String :overall_health
-          Float :overall_health_score
-
-          HStore :health_attributes
+          DateTime :created_at
         end
       end
     end
@@ -36,11 +24,11 @@ class HealthReading
   end
 
   def self.drop_table
-    DB.drop_table(:health_readings)
+    DB.drop_table(:recent_searches)
   end
 
   def self.dataset
-    DB[:health_readings]
+    DB[:recent_searches]
   end
 
 end

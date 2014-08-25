@@ -22,10 +22,18 @@ desc "Migrate HealthReading"
 task :migrate_health_reading do
   HealthReading.run_migration_up
 end
-
 desc "Drop HealthReading"
 task :drop_health_reading do
   HealthReading.drop_table
+end
+
+desc "Migrate RecentSearch"
+task :migrate_recent_search do
+  RecentSearch.run_migration_up
+end
+desc "Drop RecentSearch"
+task :drop_recent_search do
+  RecentSearch.drop_table
 end
 
 Rake::TestTask.new do |t|

@@ -11,6 +11,7 @@ require 'active_support/all'
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'health_reading'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'google_b_q_query'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'recent_search'))
 
 class AbstractHealth
   attr_accessor :events, :score, :count, :start_time, :end_time
