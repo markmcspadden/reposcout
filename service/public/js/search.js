@@ -38,8 +38,16 @@ function renderScore(repo, data) {
   $('#last_90_stats li:nth-of-type(4) p:first').html(data["last_90"]["pull_request_count"]);
   $('#last_90_stats li:nth-of-type(5) p:first').html(data["last_90"]["push_count"]);
 
+
   $('#spinner').hide();
+  $('#error').hide();
   $('#results').show();
+}
+
+function renderError() {
+  $('#spinner').hide();
+  $('#results').hide(); 
+  $('#error').show();
 }
 
 function fetchHealth() {
@@ -55,6 +63,7 @@ function fetchHealth() {
     dataType: "json",
     beforeSend: function() {
       $('#spinner').show();
+      $('#error').hide();
       $('#results').hide();
       return true;
     },
@@ -64,6 +73,9 @@ function fetchHealth() {
       renderScore(repo, data);
 
       // Update url!
+    },
+    error: function() {
+
     }
   });
 }

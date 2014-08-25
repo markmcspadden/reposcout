@@ -189,6 +189,13 @@ a:hover {
   color: #a9a9a9;
 }
 
+
+
+#error i {
+  font-size: 5.0em;
+  color: #a9a9a9;
+}
+
 #main-footer {
   border-top: 1px solid #e5e5e5;
   margin-top: 150px;

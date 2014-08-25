@@ -98,6 +98,24 @@
           <i class="fa fa-spinner fa-spin"></i>
         </section>
 
+        <section id="error" style="display:none;">
+          <i class="fa fa-frown-o"></i>
+          <h3>
+            There was an error in fetching the ScoutScore for this repo.
+          </h3>
+          <p>
+            I've seen this happen a few different times. One possibility is that results are coming back slowly from BigQuery. (Yeah...I just said there's a chance Google is slow.) If this is the case, chances are if you try again things will work.
+          </p>
+          <p>
+            The second (and more likely) scenario is that for repos with LOTS of activity the transformation of that result to a score can get slow and bloated. I've only seens this on the top 20 repos by activity, but it's a possibility.
+            <br/><br/>
+            If this is the case, until something changes with ScoutScore computation, you can search over and over and you'll probably not get a score. If it's any consolation, your multi-re-search fury will be made known via my heroku and BigQuery bill.
+          </p>
+          <p>
+            Either way, sorry you got an error, feel free to file an issue on GitHub and I'll take a look. 
+          </p>
+        </section>
+
         <section id="results" style="display:none;">
           <h3>The ScoutScore for <span id="search-repo-label">fake/rake</span></h3>
           <div id="health_result" class="Great">
