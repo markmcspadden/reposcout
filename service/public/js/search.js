@@ -75,7 +75,7 @@ function fetchHealth() {
       // Update url!
     },
     error: function() {
-
+      renderError();
     }
   });
 }
