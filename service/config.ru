@@ -6,7 +6,7 @@ Bundler.require
 require File.join(File.dirname(__FILE__), "lib", "health")
 
 use Rack::Static,
-  :urls => ["/images", "/js", "/css"],
+  :urls => ["/images", "/js", "/css", "/favicon.ico"],
   :root => "public"
 
 class Router
