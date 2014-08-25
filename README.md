@@ -38,6 +38,19 @@ The first time I fetch the data for a repo, I hit Google BigQuery on the fly to 
 
 I currently cache the resulting computation in Postgres to make future calls nice and speedy. (There is currently no cache expiration.)
 
+## Data Quick Hits
+
+Some interesting things I discovered while exploring GitHub events: (as of 8/23)
+
+* Number of Repos that have events in last 90 days:
+2,681,322
+* Top Repo by Event Count: 
+https://github.com/nctmonitor/vitality - 81,351 events (looks to be spam)
+* Many "Top Repos" appear to be some kind of spam
+* 1729 Repos had over 1000k events in the last 90 days
+* 40737 had over 100 events in the last 90 days
+* ~800,000 only had 1 event
+
 ## Terminology Note
 
 You may find a lot of "health" references. RepoScout was RepoHealth before it was RepoScout. In an ideal world, all the references would have been changed. The world is not ideal.
