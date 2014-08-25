@@ -40,6 +40,10 @@ The app _should_ be up and running on http://localhost:9292.
 
 Yes. There are actually tests. Run them using `rake test`.
 
+## TODOs
+
+There are lots, but most notable is to try and move the score computation out of the service and to somewhere else. (Maybe BigQuery. Maybe another language.) It currently can't handle the computation for the top 10 repos by activity.
+
 ## Confesions
 
 Like all "small rack apps" there is too much hand-rolled-ness here for my liking. Part of it was due to my first stab at the Sequel library. Part of it is just the nature of small rack apps.
