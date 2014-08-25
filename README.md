@@ -48,7 +48,7 @@ Some interesting things I discovered while exploring GitHub events: (as of 8/23)
 2,681,322
 * Top Repo by Event Count: 
 https://github.com/nctmonitor/vitality - 81,351 events (looks to be spam)
-* Many "Top Repos" appear to be some kind of spam
+* Several "Top Repos" appear to be some kind of spam
 * 1729 Repos had over 1000k events in the last 90 days
 * 40737 had over 100 events in the last 90 days
 * ~800,000 only had 1 event
