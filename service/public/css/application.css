@@ -203,3 +203,7 @@ a:hover {
   font-size: 0.8em;
   text-align: right;  
 }
+
+#main-footer .download {
+  float: left;
+}
