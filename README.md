@@ -32,6 +32,12 @@ Three sections of this repo:
 * [Chrome Extension](chrome_extension/repo-scout): Code for a Chrome Extension that lets you see a ScoutScore while browsing repos on GitHub
 * [Practice](practice): The jumbled mess of scratch work that kicked off each component
 
+## Data
+
+The first time I fetch the data for a repo, I hit Google BigQuery on the fly to grab the data I need to start computing a ScoutScore. Those methods can be found in the service component in (health.rb)[service/lib/health.rb#L66] and (google_b_q_query)[service/lib/google_b_q_query.rb].
+
+I currently cache the resulting computation in Postgres to make future calls nice and speedy. (There is currently no cache expiration.)
+
 ## Terminology Note
 
 You may find a lot of "health" references. RepoScout was RepoHealth before it was RepoScout. In an ideal world, all the references would have been changed. The world is not ideal.
