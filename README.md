@@ -36,6 +36,10 @@ Three sections of this repo:
 
 You may find a lot of "health" references. RepoScout was RepoHealth before it was RepoScout. In an ideal world, all the references would have been changed. The world is not ideal.
 
+## Icons
+
+Icons are all from the great wonderful (Font Awesome)[http://fortawesome.github.io/Font-Awesome/]
+
 ## Contributors
 
 @markmcspadden
