@@ -19,5 +19,11 @@ var findRepo = function() {
 
   console.log("Repo", repo);
 
-  return repo;
+  if(owner && repo_name) {
+    return repo;  
+  }
+  else {
+    return null;
+  }
+  
 }
