@@ -8,7 +8,6 @@ require File.join(File.dirname(__FILE__), "lib", "health")
 use Rack::Static,
   :urls => ["/images", "/js", "/css"],
   :root => "public"
-# use Rack::BounceFavicon
 
 class Router
   def initialize(routes)
@@ -28,10 +27,6 @@ class Router
   end
 
 end
-
-# use Rack::Auth::Basic, "Protected Area" do |username, password|
-#   (username == '' && password == '')
-# end
 
 run Router.new([
   {
@@ -101,52 +96,5 @@ run Router.new([
         [ERB.new(File.read(File.join(File.dirname(__FILE__), "views", "index.html.erb"))).result(binding)]
       ]
     end    
-  },
-  # {
-  #   :pattern => %r{^/api/.*$},
-  #   :controller => lambda do |env, match|
-  #     req = Rack::Request.new(env)
-  #     if ENV['RACK_ENV'] == 'production'
-  #       url = 'instacation-rails.herokuapp.com'
-  #     else
-  #       url = 'localhost:8081'
-  #     end
-  #     path = req.fullpath.sub(/\/api\//, '')
-  #     # puts "http://#{url}/#{path}"
-  #     [
-  #       200,
-  #       { 'Content-Type' => 'application/json' },
-  #       [RestClient.get("http://#{url}/#{path}")]
-  #     ]
-  #   end
-  # },
-  # {
-  #   :pattern => %r{^/(chain.html)?$},
-  #   :controller => lambda do |env, match|
-  #     req = Rack::Request.new(env)
-  #     [
-  #       200,
-  #       {
-  #         'Content-Type'  => 'text/html',
-  #         'Cache-Control' => 'public, max-age=86400'
-  #       },
-  #       File.open("public/chain.html", File::RDONLY)
-  #     ]
-  #   end
-  # },
-  # {
-  #   :pattern => %r{^/property.html*},
-  #   :controller => lambda do |env, match|
-  #     req = Rack::Request.new(env)
-  #     puts req.query_string
-  #     [
-  #       200,
-  #       {
-  #         'Content-Type'  => 'text/html',
-  #         'Cache-Control' => 'public, max-age=86400'
-  #       },
-  #       File.open("public/property.html", File::RDONLY)
-  #     ]
-  #   end
-  # }
+  }
 ])
