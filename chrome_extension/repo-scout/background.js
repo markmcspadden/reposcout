@@ -13,7 +13,7 @@ var selectedId = null;
 function fetchRepoHealthData(repo) {
   console.log('Fetch Repo Health');
 
-  var url = 'http://repo-health.herokuapp.com/' + repo + '/health';
+  var url = 'http://reposcout.com/' + repo + '/health';
   var request = new XMLHttpRequest();
 
   request.open('GET', url, true);

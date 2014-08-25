@@ -10,7 +10,7 @@ function getHealth() {
     document.getElementById("repo-name").innerHTML = repo;
     document.getElementById("overall-health").innerHTML = repoDetails["overall_health_score_100"];
     document.getElementById("overall-health-phrase").innerHTML = repoDetails["overall_health_phrase"];
-    document.getElementById("repo-scout-link").href = "http://repo-health.herokuapp.com/search/" + repo;
+    document.getElementById("repo-scout-link").href = "http://reposcout.com/search/" + repo;
   
     // Style
     document.getElementById("results").className = repoDetails["overall_health"];
